@@ -15,9 +15,21 @@
                     </ul>
                 </nav>
             </div>
-      </header>
-      <div class="main-content">
+        </header>
+
+        <div class="flashed-messages">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for  message in messages %}
+                  {{ message }}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
           {% block content %}{% endblock %}
-      </div>
+        </div>
+
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
     </body>
 </html>
