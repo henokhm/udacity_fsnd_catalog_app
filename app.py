@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
 @app.route("/")
 @app.route("/catalog")
 def catalog():
-    return "Home Page | Catalog"
+    return render_template("home.html")
 
 
 @app.route("/signup")
