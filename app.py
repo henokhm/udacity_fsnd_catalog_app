@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash, url_for, redirect
 from forms import (SignupForm, LoginForm, AddCategoryForm, EditCategoryForm,
                    AddItemForm, EditItemForm)
 app = Flask(__name__)
@@ -43,69 +43,143 @@ mock_items = [
 @app.route("/")
 @app.route("/catalog")
 def catalog():
+    # show edit, delete buttons only if user logged in
     return render_template("home.html", categories=mock_categories, items=mock_items)
 
 
-@app.route("/signup")
+# only if not already signed in
+@app.route("/signup", methods=['GET', 'POST'])
 def signup():
     form = SignupForm()
+    if request.method == 'POST':
+        # validate form, username not used
+        # add user to database
+        # login the user
+        flash('Your account has been created!')
+        return redirect(url_for("catalog"))
     return render_template("signup.html", form=form)
 
 
-@app.route("/login")
+# only if not already signed in
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if request.method == 'POST':
+        # validate username password combination
+        # login user
+        flash('You have successfully logged in!')
+        return redirect(url_for("catalog"))
     return render_template("login.html", form=form)
 
 
-@app.route("/logout")
+# login required
+@app.route("/logout", methods=['GET', 'POST'])
 def logout():
+    if request.method == 'POST':
+        # log user out
+        flash("You have successfully logged out!")
+        return redirect(url_for("catalog"))
     return render_template("confirm_logout.html")
 
 
 # category CRUD
-@app.route("/catalog_categories/add_category")
+# login required
+@app.route("/catalog_categories/add_category", methods=['GET', 'POST'])
 def add_category():
     form = AddCategoryForm()
+    if request.method == "POST":
+        # validate form
+        # set owner of category to current user
+        # add category to database
+        flash('You have successfully added *** category'.format())
+        return redirect(url_for("catalog"))
     return render_template("add_category.html", form=form)
 
 
 @app.route("/catalog_categories/<string:category_name>/items")
 def show_category(category_name):
+    # show edit, delete buttons only if user logged in
+    # and owns category
     return render_template("category_items.html")
 
 
-@app.route("/catalog_categories/<string:category_name>/edit")
+# login required
+# category has to belong to current user
+@app.route("/catalog_categories/<string:category_name>/edit", methods=['GET', 'POST'])
 def edit_category(category_name):
     form = EditCategoryForm()
+    if request.method == 'POST':
+        # validate form
+        # make sure category belongs to current user
+        # get category from db
+        # save changes
+        flash ('You have successfully edited *** category'.format())
+        return redirect(url_for("catalog"))
     return render_template("category_edit.html", form=form)
 
 
-@app.route("/catalog_categories/<string:category_name>/delete")
+# login required
+# category has to belong to current user
+@app.route("/catalog_categories/<string:category_name>/delete", methods=['GET', 'POST'])
 def delete_category(category_name):
-    return render_template("category_confirm_delete.html")
+    if request.method == 'POST':
+        # get category from db
+        # make sure category belongs to current user
+        # capture category name
+        # delete category from db
+        flash('You have successfully deleted the "***" category!'.format())
+        return redirect(url_for('catalog'))
+
+    return render_template("category_confirm_delete.html", category_name=category_name)
 
 
 # items CRUD
-@app.route("/catalog_items/add_item")
+# login required
+@app.route("/catalog_items/add_item", methods = ['GET', 'POST'])
 def add_item():
     form = AddItemForm()
+    if request.method == 'POST':
+        # validate  form
+        # set owner of item to current user
+        # add item to database
+        flash('You have succussfully added the item ***'.format())
+        return redirect(url_for('catalog'))
     return render_template("add_item.html", form=form)
 
 
 @app.route("/catalog_items/<string:item_name>")
 def show_item_details(item_name):
+    # show edit, delete buttons only if user logged in
+    # and owns item
     return render_template("item_details.html")
 
 
-@app.route("/catalog_items/<string:item_name>/edit")
+# login required
+# item has to belong to current user
+@app.route("/catalog_items/<string:item_name>/edit", methods=['GET', 'POST'])
 def edit_item_details(item_name):
     form = EditItemForm()
+    if request.method == 'POST':
+        # validate form
+        # make sure item belongs to current user
+        # get item from db
+        # save changes
+        flash('You have successfully edited *** item'.format())
+        return redirect(url_for("catalog"))
     return render_template("item_edit.html", form=form)
 
 
-@app.route("/catalog_items/<string:item_name>/delete")
+# login required
+# item has to belong to current user
+@app.route("/catalog_items/<string:item_name>/delete", methods=['GET', 'POST'])
 def delete_item_details(item_name):
+    if request.method == 'POST':
+        # get item from db
+        # make sure item belongs to current user
+        # capture item name
+        # delete item from db
+        flash('You have successfully deleted the "***" item!'.format())
+        return redirect(url_for('catalog'))
     return render_template("item_confirm_delete.html")
 
 
