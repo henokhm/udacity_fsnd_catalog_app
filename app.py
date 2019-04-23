@@ -51,7 +51,7 @@ def catalog():
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     form = SignupForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         # validate form, username not used
         # add user to database
         # login the user
@@ -64,7 +64,7 @@ def signup():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         # validate username password combination
         # login user
         flash('You have successfully logged in!')
@@ -87,7 +87,7 @@ def logout():
 @app.route("/catalog_categories/add_category", methods=['GET', 'POST'])
 def add_category():
     form = AddCategoryForm()
-    if request.method == "POST":
+    if form.validate_on_submit():
         # validate form
         # set owner of category to current user
         # add category to database
@@ -108,7 +108,7 @@ def show_category(category_name):
 @app.route("/catalog_categories/<string:category_name>/edit", methods=['GET', 'POST'])
 def edit_category(category_name):
     form = EditCategoryForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         # validate form
         # make sure category belongs to current user
         # get category from db
@@ -138,7 +138,7 @@ def delete_category(category_name):
 @app.route("/catalog_items/add_item", methods = ['GET', 'POST'])
 def add_item():
     form = AddItemForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         # validate  form
         # set owner of item to current user
         # add item to database
@@ -159,7 +159,7 @@ def show_item_details(item_name):
 @app.route("/catalog_items/<string:item_name>/edit", methods=['GET', 'POST'])
 def edit_item_details(item_name):
     form = EditItemForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         # validate form
         # make sure item belongs to current user
         # get item from db
