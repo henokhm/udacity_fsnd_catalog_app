@@ -40,7 +40,7 @@ mock_items = [
 @app.route("/")
 @app.route("/catalog")
 def catalog():
-    return render_template("home.html")
+    return render_template("home.html", categories=mock_categories, items=mock_items)
 
 
 @app.route("/signup")

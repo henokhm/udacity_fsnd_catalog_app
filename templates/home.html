@@ -5,15 +5,11 @@
             Categories
         </h3>
         <ul>
+            {% for category in categories %}
             <li class="category-item">
-                Lorem ipsum dolor sit amet
+                {{ category }}
             </li>
-            <li class="category-item">
-                Consectetur adipiscing elit
-            </li>
-            <li class="category-item">
-                Integer molestie lorem at massa
-            </li>
+            {% endfor %}
         </ul>
         <button type="button" class="add-button">
             Add Category
@@ -25,15 +21,11 @@
             Items
         </h3>
         <ul>
+            {% for item in items %}
             <li class="item-item">
-                Lorem ipsum dolor sit amet
+                {{ item.name }} <span class="item_cat_in_parens">({{item.category_id}})</span>
             </li>
-            <li class="item-item">
-                Consectetur adipiscing elit
-            </li>
-            <li class="item-item">
-                Integer molestie lorem at massa
-            </li>
+            {% endfor %}
         </ul>
         <button type="button" class="add-button">
             Add Item
