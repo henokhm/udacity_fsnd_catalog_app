@@ -13,19 +13,23 @@ mock_items = [
         'name': 'Soccer Ball',
         'category_id': 0,
         'description': 'Soccer Ball description...'
-    },{
-        'name':'Baseball Bat',
+    },
+    {
+        'name': 'Baseball Bat',
         'category_id': 1,
         'description': 'Baseball Bat description...'
-    },{
+    },
+    {
         'name': 'Baseball Gloves',
         'category_id': 1,
         'description': 'Baseball Gloves description...'
-    },{
+    },
+    {
         'name': 'Swim Suit',
         'category_id': 2,
         'description': 'Swim Suit description ...'
-    },{
+    },
+    {
         'name': 'Swimming Goggles',
         'category_id': 2,
         'description': 'Swimming Goggles description...'
