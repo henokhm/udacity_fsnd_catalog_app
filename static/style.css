@@ -91,11 +91,27 @@ nav a:hover::before {
 }
 
 
-.main-box{
+.main-content{
     width: 80%;
     height: 90%;
     margin: 30px auto;
     background: #1aa18d;
     padding: 15px;
 
+}
+
+button {
+    width: 120px;
+}
+
+.form-control {
+    width : 150px;
+    box-sizing: border-box;
+}
+
+
+
+.error-message{
+    color: red;
+    font-weight: 300;
 }

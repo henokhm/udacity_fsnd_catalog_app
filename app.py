@@ -91,7 +91,7 @@ def add_category():
         # validate form
         # set owner of category to current user
         # add category to database
-        flash('You have successfully added *** category'.format())
+        flash('You have successfully added *** category')
         return redirect(url_for("catalog"))
     return render_template("add_category.html", form=form)
 
@@ -113,9 +113,9 @@ def edit_category(category_name):
         # make sure category belongs to current user
         # get category from db
         # save changes
-        flash ('You have successfully edited *** category'.format())
+        flash ('You have successfully edited *** category')
         return redirect(url_for("catalog"))
-    return render_template("category_edit.html", form=form)
+    return render_template("category_edit.html", form=form, current_category=category_name)
 
 
 # login required
@@ -166,7 +166,7 @@ def edit_item_details(item_name):
         # save changes
         flash('You have successfully edited *** item'.format())
         return redirect(url_for("catalog"))
-    return render_template("item_edit.html", form=form)
+    return render_template("item_edit.html", form=form, current_item=item_name)
 
 
 # login required
