@@ -1,4 +1,5 @@
 *.py[cod]
 *.db
+fake_db_setup.py
 __pycache__/
 .idea/
