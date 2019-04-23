@@ -1,5 +1,8 @@
 from flask import Flask, render_template
+from forms import (SignupForm, LoginForm, AddCategoryForm, EditCategoryForm,
+                   AddItemForm, EditItemForm)
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '6@kr$IhQ%teki}Juetg*x]U/QmKz{P<g'
 
 
 mock_categories = ['Soccer', 'Baseball', 'Swimming']
@@ -45,59 +48,65 @@ def catalog():
 
 @app.route("/signup")
 def signup():
-    return "Sign up Page"
+    form = SignupForm()
+    return render_template("signup.html", form=form)
 
 
 @app.route("/login")
 def login():
-    return "Login Page"
+    form = LoginForm()
+    return render_template("login.html", form=form)
 
 
 @app.route("/logout")
 def logout():
-    return "Log out Page"
+    return render_template("confirm_logout.html")
 
 
 # category CRUD
 @app.route("/catalog_categories/add_category")
 def add_category():
-    return "Add New Category Page"
+    form = AddCategoryForm()
+    return render_template("add_category.html", form=form)
 
 
 @app.route("/catalog_categories/<string:category_name>/items")
 def show_category(category_name):
-    return "Display Page for {} Items".format(category_name)
+    return render_template("category_items.html")
 
 
 @app.route("/catalog_categories/<string:category_name>/edit")
 def edit_category(category_name):
-    return "Edit Category Page for {}".format(category_name)
+    form = EditCategoryForm()
+    return render_template("category_edit.html", form=form)
 
 
 @app.route("/catalog_categories/<string:category_name>/delete")
 def delete_category(category_name):
-    return "Delete Category Page for {}".format(category_name)
+    return render_template("category_confirm_delete.html")
 
 
 # items CRUD
 @app.route("/catalog_items/add_item")
 def add_item():
-    return "Add new Item Page"
+    form = AddItemForm()
+    return render_template("add_item.html", form=form)
 
 
 @app.route("/catalog_items/<string:item_name>")
 def show_item_details(item_name):
-    return "Item details Page for item:{}".format(item_name)
+    return render_template("item_details.html")
 
 
 @app.route("/catalog_items/<string:item_name>/edit")
 def edit_item_details(item_name):
-    return "Edit Item details Page for item:{}".format(item_name)
+    form = EditItemForm()
+    return render_template("item_edit.html", form=form)
 
 
 @app.route("/catalog_items/<string:item_name>/delete")
 def delete_item_details(item_name):
-    return "Delete Item details Page for item:{}".format(item_name)
+    return render_template("item_confirm_delete.html")
 
 
 @app.route("/catalog.json")

@@ -2,5 +2,28 @@
 {% block content %}
     <div class="main-box">
         <h2>Login</h2>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="">
+                <div class="">
+                    {{ form.email.label(class="") }}
+                    {{ form.email(class="") }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="") }}
+                    {{ form.password(class="") }}
+                </div>
+                <div class="form-check">
+                    {{ form.remember(class="") }}
+                    {{ form.remember.label(class="") }}
+                </div>
+            </fieldset>
+            <div class="">
+                {{ form.submit() }}
+            </div>
+            <small class="">
+                <a href="#">Forgot Password?</a>
+            </small>
+        </form>
     </div>
 {% endblock content %}

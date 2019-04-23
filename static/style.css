@@ -89,3 +89,13 @@ nav a:hover::before {
     padding: 50px;
     margin: 50px;
 }
+
+
+.main-box{
+    width: 80%;
+    height: 90%;
+    margin: 30px auto;
+    background: #1aa18d;
+    padding: 15px;
+
+}
