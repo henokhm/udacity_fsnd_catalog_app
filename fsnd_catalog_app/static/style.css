@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+body {
+	margin: 0;
+	background: #222;
+	font-family: 'Work Sans', sans-serif;
+	font-weight: 800;
+	background-image: url("../static/bg.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+    background-color: #1aa18d;
+}
+
+.container {
+    width:80%;
+    margin: 0 auto;
+}
+
+header {
+  background: #1aa18d;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 23px;
+
+  position: relative;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #000;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #444;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 150ms;
+}
+
+nav a:hover::before {
+  width: 100%;
+}
+
+.categories-container{
+    background: #1aa18d;
+    float: left;
+    padding: 50px;
+    margin: 50px;
+}
+
+.items-container{
+    background: #1aa18d;
+    float: right;
+    padding: 50px;
+    margin: 50px;
+}
+
+
+.main-content{
+    width: 80%;
+    height: 90%;
+    margin: 30px auto;
+    background: #1aa18d;
+    padding: 15px;
+
+}
+
+button {
+    width: 120px;
+}
+
+.form-control {
+    width : 150px;
+    box-sizing: border-box;
+}
+
+
+
+.error-message{
+    color: red;
+    font-weight: 300;
+}

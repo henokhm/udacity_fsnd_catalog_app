@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="categories-container">
+        <h2 class="page-header">
+            Categories
+        </h2>
+        <ul>
+            {% for category in categories %}
+            <li class="category-item">
+                {{ category.name }}
+            </li>
+            {% endfor %}
+        </ul>
+        <form>
+         <button type="submit" formaction="{{ url_for('add_category') }}">Add Category</button>
+        </form>
+    </div>
+
+    <div class="items-container">
+        <h3>
+            Items
+        </h3>
+        <ul>
+            {% for item in items %}
+            <li class="item-item">
+                {{ item.name }} <span class="item_cat_in_parens">({{item.category_id}})</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <form>
+         <button type="submit" formaction="{{ url_for('add_item') }}">Add Item</button>
+    </form>
+    </div>
+
+{% endblock content %}
