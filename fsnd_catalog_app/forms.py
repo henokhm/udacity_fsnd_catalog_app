@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Required
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Required, ValidationError
 
 from fsnd_catalog_app.models import Category
-from fsnd_catalog_app import db
+from fsnd_catalog_app.models import User
 
 
 class SignupForm(FlaskForm):
@@ -16,12 +16,19 @@ class SignupForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+    # Custom validation to prevent users from trying to user the same email or username
+    # to sign up for two accounts
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError("An account with that username already exists. Please choose"
+                                  "a different name.")
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
 

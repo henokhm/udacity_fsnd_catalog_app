@@ -9,10 +9,16 @@
             <li class="category-item">
                 {{ category.name }}
             </li>
+                {% if current_user == category.creator %}
+                    <span class="edit-button"><a href="{{ url_for('edit_category') }}">Edit</a></span>
+                    <span class="delete-button"><a href="{{ url_for('delete_category') }}">Delete</a></span>
+                {% endif %}
             {% endfor %}
         </ul>
         <form>
-         <button type="submit" formaction="{{ url_for('add_category') }}">Add Category</button>
+            {% if current_user.is_authenticated %}
+                <button type="submit" formaction="{{ url_for('add_category') }}">Add Category</button>
+            {% endif %}
         </form>
     </div>
 
@@ -23,12 +29,19 @@
         <ul>
             {% for item in items %}
             <li class="item-item">
-                {{ item.name }} <span class="item_cat_in_parens">({{item.category_id}})</span>
+                {{ item.name }} <span class="item_cat_in_parens">({{item.category}})</span>
+                <a href="{{ url_for('show_item_details', item=item) }}"> Details </a>
             </li>
+                {% if current_user == item.creator %}
+                    <span class="edit-button"><a href="{{ url_for('edit_item') }}">Edit</a></span>
+                    <span class="delete-button"><a href="{{ url_for('delete_item') }}">Delete</a></span>
+                {% endif %}
             {% endfor %}
         </ul>
         <form>
-         <button type="submit" formaction="{{ url_for('add_item') }}">Add Item</button>
+            {% if current_user.is_authenticated %}
+                <button type="submit" formaction="{{ url_for('add_item') }}">Add Item</button>
+            {% endif %}
     </form>
     </div>
 

@@ -10,8 +10,13 @@
                 <h2 class="logo">Catalog App</h2>
                 <nav>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Log In</a></li>
+                        <li><a href="{{ url_for('catalog') }}">Home</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">Log In</a></li>
+                        {% endif %}
+
                     </ul>
                 </nav>
             </div>
