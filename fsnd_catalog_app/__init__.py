@@ -20,19 +20,5 @@ exists = os.path.isfile('/catalog.db')
 if not exists:
     db.create_all()
 
-
-# Temporary usr for testing
-# TODO
-# remove when you delete dummy test user
-def get_current_user():
-    if 'current_user' not in g:
-        g.current_user = User(username='henok', email='henokhm2@gmail.com',
-                              hashed_password=bcrypt.generate_password_hash("1234").decode('utf-8'))
-
-    return g.current_user
-
-
-get_current_user()
-
 from fsnd_catalog_app import routes
 
