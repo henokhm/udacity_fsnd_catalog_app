@@ -1,43 +1,38 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Catalog App</title>
-        <link rel="stylesheet" href="/static/style.css">
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <h2 class="logo">Catalog App</h2>
-                <nav>
-                    <ul>
-                        <li><a href="{{ url_for('catalog') }}">Home</a></li>
-                        {% if current_user.is_authenticated %}
-                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                        {% else %}
-                            <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-                            <li><a href="{{ url_for('login') }}">Log In</a></li>
-                        {% endif %}
+{% extends 'bootstrap/base.html' %}
+{% block title %}
+    Catalog App
+{% endblock title %}
 
-                    </ul>
-                </nav>
-            </div>
-        </header>
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('catalog') }}">Home</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}">Log In</a></li>
+            {% endif %}
 
-        <div class="flashed-messages">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for  message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+        </ul>
+    </nav>
+{% endblock navbar %}
+
+{% block content %}
+    <header>
+        <div>
+            <h2>Catalog App</h2>
+
         </div>
-
-        {% block content %}
-            <div class="main-content">
-        {% endblock %}
-        {% block enddiv %}
-            </div>
-        {% endblock %}
-    </body>
-</html>
+    </header>
+    <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for  message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% block app_content %}{% endblock %}
+{% endblock content %}

@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
-{% block content %}
-    {{ super() }}
-    <div class="page-header">
+{% block app_content %}
+    <div>
         <h2>Confirm Item Delete</h2>
     </div>
 
@@ -15,6 +14,4 @@
                 <a href="{{url_for('catalog')}}">Cancel</a>
         </form>
     </div>
-
-
-{% endblock content %}
+{% endblock app_content %}

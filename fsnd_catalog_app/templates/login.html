@@ -1,43 +1,39 @@
 {% extends "layout.html" %}
-{% block content %}
-    {{ super() }}
-    <div class="page-header">
+{% block app_content %}
+    <div>
         <h2>Login</h2>
     </div>
-
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        <div class="form-group">
+        <div>
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-field") }}
             {% if form.email.errors %}
-                <div class="invalid-feedback">
+                <div>
                     {% for error in form.email.errors %}
-                        <span class="error-message">{{ error }}</span>
+                        <span>{{ error }}</span>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
-        <div class="form-group">
+        <div>
             {{ form.password.label(class="form-label") }}
             {{ form.password(class="form-field") }}
             {% if form.password.errors %}
-                <div class="invalid-feedback">
+                <div>
                     {% for error in form.password.errors %}
-                        <span class="error-message">{{ error }}</span>
+                        <span>{{ error }}</span>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
-        <div class="form-group">
+        <div>
                 {{ form.submit(class="green-btn") }}
         </div>
     </form>
-
     <div>
         <small >
             Don't Have An Account Yet? <a  href="{{ url_for('signup') }}">Sign Up</a>
         </small>
     </div>
-
-{% endblock content %}
+{% endblock app_content %}
