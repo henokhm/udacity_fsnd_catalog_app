@@ -29,7 +29,7 @@ class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    submit = SubmitField('Sign in')
 
 
 class AddCategoryForm(FlaskForm):
@@ -40,6 +40,10 @@ class AddCategoryForm(FlaskForm):
 class EditCategoryForm(FlaskForm):
     category_name = StringField('Category Name', validators=[DataRequired()])
     submit = SubmitField('Save Changes')
+
+
+class DeleteCategoryForm(FlaskForm):
+    submit = SubmitField('Delete')
 
 
 class AddItemForm(FlaskForm):
@@ -58,3 +62,7 @@ class EditItemForm(FlaskForm):
     item_category = SelectField(label='Category', choices=STATE_CHOICES, validators=[Required()])
     item_details = StringField('Item Details', validators=[DataRequired()])
     submit = SubmitField('Save Changes')
+
+
+class DeleteItemForm(FlaskForm):
+    submit = SubmitField('Delete')

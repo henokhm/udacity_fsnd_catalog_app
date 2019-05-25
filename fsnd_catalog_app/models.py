@@ -25,8 +25,8 @@ class Category(db.Model):
         db.session.commit()
 
     @staticmethod
-    def edit_category(category_to_edit, new_category_obj):
-        category_to_edit.name = new_category_obj.name
+    def edit_category(category_to_edit, name):
+        category_to_edit.name = name
         db.session.commit()
 
     @staticmethod

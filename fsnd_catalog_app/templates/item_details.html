@@ -14,8 +14,15 @@
             Item Description: {{ item.description }}
         </li>
         {% if current_user == item.creator %}
-            <span><a href="{{ url_for('edit_item') }}">Edit</a></span>
-            <span><a href="{{ url_for('delete_item') }}">Delete</a></span>
+            <a href="{{ url_for('edit_item') }}">
+                <button class="btn btn-lg btn-primary btn-block">Edit</button>
+            </a>
+            <a href="{{ url_for('delete_item') }}">
+                <button class="btn btn-lg btn-primary btn-block">Delete</button>
+            </a>
+            <a href="{{ url_for('catalog') }}">
+                <button class="btn btn-lg btn-secondary btn-block">Back</button>
+            </a>
         {% endif %}
     </div>
 {% endblock app_content %}

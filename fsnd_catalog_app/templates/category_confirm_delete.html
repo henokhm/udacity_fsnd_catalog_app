@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form>
-         <button type="submit" formaction="{{ url_for('catalog') }}">Cancel</button>
-    </form>
+    <a href="{{ url_for('catalog') }}">
+        <button class="btn btn-lg btn-danger btn-block">Cancel</button>
+    </a>
 {% endblock app_content %}

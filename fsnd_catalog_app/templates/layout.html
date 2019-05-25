@@ -1,17 +1,27 @@
 {% extends 'bootstrap/base.html' %}
+
 {% block title %}
     Catalog App
 {% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="
+    sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"
+{% endblock styles %}
 
 {% block navbar %}
     <nav>
         <ul>
             <li><a href="{{ url_for('catalog') }}">Home</a></li>
             {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('logout') }}">
+                    <button class="btn btn-lg btn-danger btn-block">Logout</button></a></li>
             {% else %}
-                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-                <li><a href="{{ url_for('login') }}">Log In</a></li>
+                <li><a href="{{ url_for('signup') }}">
+                    <button class="btn btn-lg btn-success btn-block">Sign up</button></a></li>
+                <li><a href="{{ url_for('login') }}">
+                    <button class="btn btn-lg btn-success btn-block">Sign in</button></a></li>
             {% endif %}
 
         </ul>
@@ -19,12 +29,6 @@
 {% endblock navbar %}
 
 {% block content %}
-    <header>
-        <div>
-            <h2>Catalog App</h2>
-
-        </div>
-    </header>
     <div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -34,5 +38,21 @@
             {% endif %}
         {% endwith %}
     </div>
-    {% block app_content %}{% endblock %}
+
+    <section class="container-fluid bg">
+        <section class="row justify-content-center">
+            <section class="col-12 col-sm-6 col-md-3 main_container">
+                {% block app_content %}{% endblock %}
+            </section>
+        </section>
+    </section>
 {% endblock content %}
+
+{% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="
+    sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="
+    sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="
+    sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock scripts %}
