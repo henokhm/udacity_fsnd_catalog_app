@@ -11,19 +11,20 @@
 {% endblock styles %}
 
 {% block navbar %}
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('catalog') }}">Home</a></li>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <span class="navbar-text">Catalog App</span>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="{{ url_for('catalog') }}">Home</a></li>
             {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('logout') }}">
-                    <button class="btn btn-lg btn-danger btn-block">Logout</button></a></li>
+                <li class="nav-item"><a href="{{ url_for('logout') }}">
+                    <button class="btn btn-lg btn-danger">Logout</button></a></li>
             {% else %}
-                <li><a href="{{ url_for('signup') }}">
-                    <button class="btn btn-lg btn-success btn-block">Sign up</button></a></li>
-                <li><a href="{{ url_for('login') }}">
-                    <button class="btn btn-lg btn-success btn-block">Sign in</button></a></li>
+                <li class="nav-item"><a class="nav-kid" href="{{ url_for('signup') }}">
+                    <button class="btn btn-success">Sign up</button></a></li>
+                <li class="nav-item"><a class="nav-kid" href="{{ url_for('login') }}">
+                    <button class="btn btn-success">Sign in</button></a></li>
             {% endif %}
-
         </ul>
     </nav>
 {% endblock navbar %}
@@ -41,7 +42,7 @@
 
     <section class="container-fluid bg">
         <section class="row justify-content-center">
-            <section class="col-12 col-sm-6 col-md-3 main_container">
+            <section class="col-12 col-md-6 main_container">
                 {% block app_content %}{% endblock %}
             </section>
         </section>

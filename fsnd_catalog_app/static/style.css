@@ -1,3 +1,8 @@
+a{
+    text-decoration: none !important;
+    color: black !important;
+}
+
 .bg{
     background: url('bg.jpg') no-repeat;
     width: 100%;
@@ -8,7 +13,41 @@
 .main_container{
     background: #fff;
     padding: 30px;
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: 75px;
     box-shadow: 0px 0px 3px 0px #000;
+}
+
+.form-group{
+    width: 75%;
+}
+
+.categories-list{
+    padding-right: 0px;
+    margin-right: 0px;
+}
+
+
+
+.category-item{
+    background-color: #a1e2f4;
+}
+
+.category-item:hover {
+  background-color: #69c1f4;
+}
+
+.selected-category-item{
+    background-color: #88efc8;
+}
+
+.items-list{
+    padding-left: 0px;
+    margin-left: 0px;
+    background-color: #88efc8;
+}
+
+
+.card{
+    border: none;
 }

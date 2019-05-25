@@ -7,13 +7,21 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 
 @app.route("/")
-@app.route("/catalog")
+@app.route("/catalog/all")
 def catalog():
     all_categories = Category.query.all()
     all_items = Item.query.all()
-    # show edit, delete buttons only if user logged in
-    # TODO
-    return render_template("home.html", categories=all_categories, items=all_items)
+    return render_template("home.html", categories=all_categories, items=all_items,
+                           selected_category=None)
+
+
+@app.route("/catalog/<string:category_name>")
+def catalog_category(category_name):
+    all_categories = Category.query.all()
+    selected_category = Category.query.filter_by(name=category_name).first()
+    category_items = Item.query.filter_by(cat_id=selected_category.id)
+    return render_template("home.html", categories=all_categories, items=category_items,
+                           selected_category=selected_category)
 
 
 @app.route("/signup", methods=['GET', 'POST'])
