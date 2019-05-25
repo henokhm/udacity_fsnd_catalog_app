@@ -1,47 +1,17 @@
 {% extends "layout.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
 {% block app_content %}
     <div>
         <h2>Edit Item</h2>
     </div>
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.item_name.label(class="form-label") }}
-            {{ form.item_name(class="form-field", placeholder="{{ current_item.name }}") }}
-            {% if form.item_name.errors %}
-                <div>
-                    {% for error in form.item_name.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
+
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
         </div>
-        <div>
-            {{ form.item_category.label(class="form-label") }}
-            {{ form.item_category(class="form-field", placeholder="{{ current_item.cat_id }}") }}
-            {% if form.item_category.errors %}
-                <div>
-                    {% for error in form.item_category.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.item_details.label(class="form-label") }}
-            {{ form.item_details(class="form-field", placeholder="{{ current_item.description }}") }}
-            {% if form.item_details.errors %}
-                <div>
-                    {% for error in form.item_details.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.submit(class="green-btn") }}
-        </div>
-    </form>
+    </div>
+
     <form>
          <button type="submit" formaction="{{ url_for('catalog') }}">Cancel</button>
     </form>

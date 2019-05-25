@@ -7,7 +7,7 @@ def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
 
-class Category(db.Model, UserMixin):
+class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
@@ -86,7 +86,7 @@ class Item(db.Model):
         }
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)

@@ -1,23 +1,16 @@
 {% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 {% block app_content %}
     <div>
         <h2>Add Category</h2>
     </div>
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        <div>
-            {{ form.category_name.label(class="form-label") }}
-            {{ form.category_name(class="form-field") }}
-            {% if form.category_name.errors %}
-                <div>
-                    {% for error in form.category_name.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.submit(class="green-btn") }}
+        <div class="row">
+            <div class="col-md-4">
+                {{ wtf.quick_form(form) }}
+            </div>
         </div>
     </form>
     <form>
