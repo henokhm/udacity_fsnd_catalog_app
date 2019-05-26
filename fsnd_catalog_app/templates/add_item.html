@@ -5,12 +5,20 @@
     <div>
         <h2>Add Item</h2>
     </div>
-      <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+    <form class="form-group" method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_errors(form, hiddens="only") }}
+
+            {{ wtf.form_field(form.item_name) }}
+            {{ wtf.form_field(form.item_category) }}
+            {{ wtf.form_field(form.item_details) }}
+            {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+            <a href="{{ url_for('catalog') }}">
+                <button class="btn btn-danger">Cancel</button>
+            </a>
         </div>
-    </div>
-    <a href="{{ url_for('catalog') }}">
-        <button class="btn btn-lg btn-danger btn-block">Cancel</button>
-    </a>
+    </form>
+
 {% endblock app_content %}

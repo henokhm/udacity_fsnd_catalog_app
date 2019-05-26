@@ -5,19 +5,17 @@
     <div>
         <h2>Add Category</h2>
     </div>
-    <form method="POST" action="">
+    <form class="form-group" method="POST" action="">
         {{ form.hidden_tag() }}
-        <div class="row">
-            <form class="form-group" method="POST" role="form">
-                {{ form.hidden_tag() }}
-                {{ wtf.form_errors(form, hiddens="only") }}
+        <div>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_errors(form, hiddens="only") }}
 
-                {{ wtf.form_field(form.category_name) }}
-                {{ wtf.form_field(form.submit, class="btn btn-lg btn-primary btn-block") }}
-            </form>
+            {{ wtf.form_field(form.category_name) }}
+            {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+            <a href="{{ url_for('catalog') }}">
+                <button class="btn btn-danger">Cancel</button>
+            </a>
         </div>
     </form>
-    <a href="{{ url_for('catalog') }}">
-        <button class="btn btn-lg btn-danger btn-block">Cancel</button>
-    </a>
 {% endblock app_content %}
