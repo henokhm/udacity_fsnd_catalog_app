@@ -7,6 +7,17 @@ html, body{
     height: 100%;
 }
 
+.navbar-default{
+    background-color: #339FFF;
+    border-color: #20ACDF;
+    height: 55px;
+}
+
+.navbar-brand{
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
 .btn{
     margin-left: 20px !important;
     margin-bottom: 25px !important;
