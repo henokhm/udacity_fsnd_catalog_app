@@ -12,15 +12,15 @@ def catalog():
     all_categories = Category.query.all()
     all_items = Item.query.all()
     return render_template("home.html", categories=all_categories, items=all_items,
-                           selected_category=None)
+                            selected_category=None)
 
 
-@app.route("/catalog/<string:category_name>")
-def catalog_category(category_name):
+@app.route("/catalog/<string:selected_category_id>")
+def catalog_category(selected_category_id):
     all_categories = Category.query.all()
-    selected_category = Category.query.filter_by(name=category_name).first()
-    category_items = Item.query.filter_by(cat_id=selected_category.id)
-    return render_template("home.html", categories=all_categories, items=category_items,
+    selected_category = Category.query.filter_by(id=selected_category_id).first()
+    items_of_selected_category = Item.query.filter_by(cat_id=selected_category.id)
+    return render_template("home.html", categories=all_categories, items=items_of_selected_category,
                            selected_category=selected_category)
 
 
@@ -125,11 +125,10 @@ def delete_category(category_name):
 def add_item():
     form = AddItemForm()
     if form.validate_on_submit():
-        # set owner of item to current user
-        # add item to database
+        category = Category.query.filter_by(name=form.item_category.data).first()
         Item.add_item(name=form.item_name.data,
                       description=form.item_details.data,
-                      category=form.item_category.data,
+                      category=category,
                       creator=current_user)
         flash('You have successfully added the item "{}"'.format(form.item_name.data))
         return redirect(url_for('catalog'))
@@ -138,7 +137,7 @@ def add_item():
 
 @app.route("/catalog_items/<string:item_name>")
 @login_required
-def show_item_details(item):
+def show_item_details(item_name, item):
     return render_template("item_details.html", item=item)
 
 

@@ -7,20 +7,18 @@
                     <h3>Categories</h3>
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('add_category') }}">
-                            <button class="btn btn-lg btn-primary">Add Category</button>
+                            <button class="btn btn-primary">Add Category</button>
                         </a>
                     <div class="card-body categories-list">
                         <ul class="list-group list-group-flush">
                             {% for category in categories %}
-                                <a href="{{ url_for('catalog_category',  category_name=category.name) }}">
+                                <a href="{{ url_for('catalog_category',  selected_category_id=category.id) }}">
                                 <li class="list-group-item
-                                    {% if selected_category == category %} selected-category-item
+                                    {% if selected_category.id == category.id %} selected-category-item
                                     {% else %} category-item
                                     {% endif %}">
-
                                     <h5>{{category.name }}</h5>
-
-                                    {% if current_user == category.creator and selected_category == category %}
+                                    {% if current_user == category.creator and selected_category_id == category.id %}
                                     <div class="row">
                                         <a href="{{ url_for('edit_category', category_name=category.name) }}">
                                             <button class="btn btn-success">Edit</button>
@@ -45,19 +43,17 @@
                     <h3>Latest Items</h3>
                     {% if current_user.is_authenticated %}
                             <a href="{{ url_for('add_item') }}">
-                                <button class="btn btn-lg btn-primary">Add Item</button>
+                                <button class="btn btn-primary">Add Item</button>
                             </a>
                     {% endif %}
                     <div class="card-body items-list item-item">
                         <ul>
                             {% for item in items %}
-                            <li>
-                                {{ item.name }} <span>({{item.category}})</span>
-                                <a href="{{ url_for('show_item_details', item=item) }}"> Details </a>
-                            </li>
+                            <a href="{{ url_for('show_item_details', item_name=item.name, item=item) }}"><li>
+                                <h6>{{ item.name }}</h6>
+                            </li></a>
                             {% endfor %}
                         </ul>
-
                     </div>
                 </div>
             </div>

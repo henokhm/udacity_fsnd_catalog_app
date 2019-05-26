@@ -46,6 +46,8 @@ html, body{
 .categories-list{
     padding-right: 0px;
     margin-right: 0px;
+    margin-top: 5px;
+    padding-top: 0px;
 }
 
 
@@ -65,6 +67,8 @@ html, body{
 .items-list{
     padding-left: 0px;
     margin-left: 0px;
+    margin-top: 5px;
+    padding-top: 0px;
 }
 
 .item-item{

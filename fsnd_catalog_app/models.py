@@ -58,7 +58,7 @@ class Item(db.Model):
 
     @staticmethod
     def add_item(name, description, category, creator):   # potential bug: creator vs creator.id
-        i = Item(name=name, descriptoon=description, cat_id=category.id, user_id=creator.id)
+        i = Item(name=name, description=description, cat_id=category.id, user_id=creator.id)
         db.session.add(i)
         db.session.commit()
 
