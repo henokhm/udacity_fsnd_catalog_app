@@ -8,15 +8,12 @@
 
     <form class="form-group" method="POST" action="">
         {{ form.hidden_tag() }}
-        <div>
-            {{ form.hidden_tag() }}
-            {{ wtf.form_errors(form, hiddens="only") }}
+        {{ wtf.form_errors(form, hiddens="only") }}
 
-            {{ wtf.form_field(form.item_name, value=item.name) }}
-            {{ wtf.form_field(form.item_category, value=items_category) }}
-            {{ wtf.form_field(form.item_details, value=item.description) }}
-            {{ wtf.form_field(form.submit, class="btn btn-primary") }}
-            </div>
+        {{ wtf.form_field(form.item_name, value=item.name) }}
+        {{ wtf.form_field(form.item_category, value=items_category) }}
+        {{ wtf.form_field(form.item_details, value=item.description) }}
+        {{ wtf.form_field(form.submit, class="btn btn-primary") }}
     </form>
     <a href="{{ url_for('show_item_details', selected_item_id=item.id) }}">
         <button class="btn btn-danger">Cancel</button>

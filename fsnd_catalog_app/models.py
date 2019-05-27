@@ -37,10 +37,10 @@ class Category(db.Model):
     @property
     def serialize(self):
         return {
-            'id': self.id,
             'name': self.name,
-            'creator': self.creator,
-            'items': [i.serialize() for i in self.items]
+            'id': self.id,
+            'creator': self.creator.username,
+            'items': [i.serialize for i in self.items]
         }
 
 
@@ -80,9 +80,9 @@ class Item(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'category_id': self.cat.id,
+            'category_id': self.cat_id,
             'description': self.description,
-            'creator': self.creator
+            'creator': self.creator.username
         }
 
 

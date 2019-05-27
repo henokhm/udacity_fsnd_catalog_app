@@ -9,6 +9,7 @@
                         <a href="{{ url_for('add_category') }}">
                             <button class="btn btn-primary">Add Category</button>
                         </a>
+                    {% endif %}
                     <div class="card-body categories-list">
                         <ul class="list-group list-group-flush">
                             {% for category in categories %}
@@ -31,17 +32,16 @@
                                 </li></a>
                             {% endfor %}
                         </ul>
-                        <form>
-                    {% endif %}
-                        </form>
-
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 items-list">
                 <div class="card items-list">
-                    <h3>Latest Items {% if not selected_category.id  %}
-                     [All] {% endif %}</h3>
+                    <h3>Latest Items </h3>
+                    <h6>{% if not selected_category.id  %} [All]{% endif %}
+                    {% if items.count() == 0 %} [No items yet]
+                    {% else %} [{{items.count()}} items]</h6>
+                    {% endif %}
                     {% if current_user.is_authenticated %}
                             <a href="{{ url_for('add_item') }}">
                                 <button class="btn btn-primary">Add Item</button>

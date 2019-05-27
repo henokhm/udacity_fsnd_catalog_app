@@ -18,10 +18,12 @@
                 <li class="nav-item"><a href="{{ url_for('logout') }}">
                     <button class="btn btn-danger">Logout</button></a></li>
             {% else %}
-                <li class="nav-item"><a class="nav-kid" href="{{ url_for('signup') }}">
-                    <button class="btn btn-success">Sign up</button></a></li>
-                <li class="nav-item"><a class="nav-kid" href="{{ url_for('login') }}">
-                    <button class="btn btn-success">Sign in</button></a></li>
+                <li class="nav-item">
+                    <a class="nav-kid" href="{{ url_for('signup') }}">
+                        <button class="btn btn-success">Sign up</button></a>
+                    <a class="nav-kid" href="{{ url_for('login') }}">
+                        <button class="btn btn-success">Sign in</button></a>
+                </li>
             {% endif %}
         </ul>
     </nav>

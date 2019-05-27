@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, url_for, redirect, g
+from flask import render_template, request, flash, url_for, redirect, g, jsonify
 from fsnd_catalog_app import app, bcrypt
 from fsnd_catalog_app.models import Category, Item, User
 from fsnd_catalog_app.forms import (SignupForm, LoginForm, AddCategoryForm, EditCategoryForm,
@@ -9,7 +9,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/catalog/all")
 def catalog():
-    all_categories = Category.query.all()
+    all_categories = Category.query.order_by(Category.id.desc()).all()
     all_items = Item.query.order_by(Item.id.desc()).all()
     return render_template("home.html", categories=all_categories, items=all_items,
                             selected_category=None)
@@ -180,15 +180,19 @@ def delete_item(selected_item_id):
 
 @app.route("/catalog.json")
 def full_catalog_json():
-    return "Full catalog JSON"
+    all_categories = Category.query.order_by(Category.id.desc()).all()
+    return jsonify("Full_Catalog",
+                   [category.serialize for category in all_categories])
 
 
-@app.route("/category/<string:category_name>.json")
-def full_category_json(category_name):
-    return "Full Category JSON"
+@app.route("/category/<int:category_id>.json")
+def full_category_json(category_id):
+    category = Category.query.filter_by(id=category_id).first()
+    return jsonify("Category", category.serialize)
 
 
-@app.route("/item/<string:item_name>.json")
-def single_item_json(item_name):
-    return "Single Item JSON"
+@app.route("/item/<int:item_id>.json")
+def single_item_json(item_id):
+    item = Item.query.filter_by(id=item_id).first()
+    return jsonify("Item", item.serialize)
 
