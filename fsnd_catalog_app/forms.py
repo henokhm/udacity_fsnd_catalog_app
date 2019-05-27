@@ -2,8 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Required, ValidationError
 
-from fsnd_catalog_app.models import Category
-from fsnd_catalog_app.models import User
+from fsnd_catalog_app.models import Category, User
 
 
 class SignupForm(FlaskForm):
@@ -22,7 +21,7 @@ class SignupForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError("An account with that username already exists. Please choose"
-                                  "a different name.")
+                                  "a different username.")
 
 
 class LoginForm(FlaskForm):

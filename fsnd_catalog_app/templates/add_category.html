@@ -13,9 +13,9 @@
 
             {{ wtf.form_field(form.category_name) }}
             {{ wtf.form_field(form.submit, class="btn btn-primary") }}
-            <a href="{{ url_for('catalog') }}">
-                <button class="btn btn-danger">Cancel</button>
-            </a>
         </div>
     </form>
+    <a href="{{ url_for('catalog') }}">
+        <button class="btn btn-danger">Cancel</button>
+    </a>
 {% endblock app_content %}

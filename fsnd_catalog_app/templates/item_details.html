@@ -2,18 +2,15 @@
 
 {% block app_content %}
     <div>
-        <h2>Item Details</h2>
-    </div>
-    <div>
-        <li><h4>{{ item.name }}</h4></li>
-        <li>Item Category: {{ item.category }}</li>
-        <li>Item Description: {{ item.description }}</li>
+        <div><h4>{{ item.name }}</h4></div>
+        <div>Item Category: {{ item.category.name }}</div>
+        <div>Item Description: {{ item.description }}</div>
         {% if current_user == item.creator %}
-            <a href="{{ url_for('edit_item') }}">
+            <a href="{{ url_for('edit_item', selected_item_id=item.id, item_category_id=item.cat_id) }}">
                 <button class="btn btn-primary">Edit</button>
             </a>
-            <a href="{{ url_for('delete_item') }}">
-                <button class="btn btn-primary">Delete</button>
+            <a href="{{ url_for('delete_item', selected_item_id=item.id) }}">
+                <button class="btn btn-danger">Delete</button>
             </a>
         {% endif %}
         <a href="{{ url_for('catalog') }}">

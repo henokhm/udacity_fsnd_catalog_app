@@ -10,18 +10,18 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/catalog/all")
 def catalog():
     all_categories = Category.query.all()
-    all_items = Item.query.all()
+    all_items = Item.query.order_by(Item.id.desc()).all()
     return render_template("home.html", categories=all_categories, items=all_items,
                             selected_category=None)
 
 
-@app.route("/catalog/<string:selected_category_id>")
+@app.route("/catalog/<int:selected_category_id>")
 def catalog_category(selected_category_id):
     all_categories = Category.query.all()
     selected_category = Category.query.filter_by(id=selected_category_id).first()
-    items_of_selected_category = Item.query.filter_by(cat_id=selected_category.id)
+    items_of_selected_category = Item.query.order_by(Item.id.desc()).filter_by(cat_id=selected_category.id)
     return render_template("home.html", categories=all_categories, items=items_of_selected_category,
-                           selected_category=selected_category)
+                           selected_category=selected_category, selected_category_id=selected_category_id)
 
 
 @app.route("/signup", methods=['GET', 'POST'])
@@ -89,30 +89,30 @@ def add_category():
     return render_template("add_category.html", form=form)
 
 
-@app.route("/catalog_categories/<string:category_name>/edit", methods=['GET', 'POST'])
+@app.route("/catalog_categories/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
-def edit_category(category_name):
+def edit_category(category_id):
     form = EditCategoryForm()
-    category = Category.query.filter_by(name=category_name).first()
+    category = Category.query.filter_by(id=category_id).first()
     if form.validate_on_submit():
-        if category.creator == current_user: # make sure category belongs to current user
+        if category.creator == current_user:
             Category.edit_category(category, form.category_name.data)
             flash('You have successfully edited the "{}" category!'.format(category.name))
         else:
             flash("You cannot edit this category because you are not its creator.")
         return redirect(url_for('catalog'))
-    return render_template("category_edit.html", form=form, current_category=category_name)
+    return render_template("category_edit.html", form=form, category=category)
 
 
-@app.route("/catalog_categories/<string:category_name>/delete", methods=['GET', 'POST'])
+@app.route("/catalog_categories/<int:category_id>/delete", methods=['GET', 'POST'])
 @login_required
-def delete_category(category_name):
+def delete_category(category_id):
     form = DeleteCategoryForm()
-    category = Category.query.filter_by(name=category_name).first()
+    category = Category.query.filter_by(id=category_id).first()
     if request.method == 'POST':
         if category.creator == current_user:  # make sure category belongs to current user
             Category.delete_category(category)
-            flash('You have successfully deleted the "{}" category!'.format(category_name))
+            flash('You have successfully deleted the "{}" category!'.format(category.name))
         else:
             flash("You cannot delete this category because you are not its creator.")
         return redirect(url_for('catalog'))
@@ -135,45 +135,47 @@ def add_item():
     return render_template("add_item.html", form=form)
 
 
-@app.route("/catalog_items/<string:item_name>")
+@app.route("/catalog_items/<string:selected_item_id>")
 @login_required
-def show_item_details(item_name, item):
-    return render_template("item_details.html", item=item)
+def show_item_details(selected_item_id):
+    selected_item = Item.query.filter_by(id=selected_item_id).first()
+    return render_template("item_details.html", item=selected_item)
 
 
-@app.route("/catalog_items/<string:item_name>/edit", methods=['GET', 'POST'])
+@app.route("/catalog_items/<int:selected_item_id>/edit", methods=['GET', 'POST'])
 @login_required
-def edit_item(item_name):
+def edit_item(selected_item_id):
     form = EditItemForm()
-    item = Item.query.filter_by(item_name=item_name)
+    selected_item = Item.query.filter_by(id=selected_item_id).first()
+    items_category = Category.query.filter_by(id=selected_item.id).first()
     if form.validate_on_submit():
-        if item.user_id == current_user.id:
+        if selected_item.user_id == current_user.id:
             # save changes to db
-            Item.edit_item(item_to_edit=item,
+            Item.edit_item(item_to_edit=selected_item,
                            name=form.item_name.data,
                            description=form.item_details.data,
                            cat_id=form.item_category.data,
                            user_id=current_user.id)
             flash('You have successfully edited {} item'.format(form.item_name.data))
         else:
-            flash('You cannot edit item "{}" because you didn\'t create it'.format(item.name))
+            flash('You cannot edit item "{}" because you didn\'t create it'.format(selected_item.name))
         return redirect(url_for("catalog"))
-    return render_template("item_edit.html", form=form, current_item=item_name)
+    return render_template("item_edit.html", form=form, item=selected_item, items_category=items_category)
 
 
-@app.route("/catalog_items/<string:item_name>/delete", methods=['GET', 'POST'])
+@app.route("/catalog_items/<int:selected_item_id>/delete", methods=['GET', 'POST'])
 @login_required
-def delete_item(item_name):
+def delete_item(selected_item_id):
     form = DeleteItemForm()
-    item = Item.query.filter_by(item_name=item_name)
+    selected_item = Item.query.filter_by(id=selected_item_id).first()
     if request.method == 'POST':
-        if item.user_id == current_user.id:
-            Item.delete_item(item)
-            flash('You have successfully deleted the "{}" item!'.format(item_name))
+        if selected_item.user_id == current_user.id:
+            Item.delete_item(selected_item)
+            flash('You have successfully deleted the "{}" item!'.format(selected_item.name))
         else:
-            flash('You cannot delete item "{}" because you didn\'t create it'.format(item.name))
+            flash('You cannot delete item "{}" because you didn\'t create it'.format(selected_item.name))
         return redirect(url_for('catalog'))
-    return render_template("item_confirm_delete.html", form=form, item=item)
+    return render_template("item_confirm_delete.html", form=form, item=selected_item)
 
 
 @app.route("/catalog.json")

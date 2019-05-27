@@ -12,13 +12,14 @@
             {{ form.hidden_tag() }}
             {{ wtf.form_errors(form, hiddens="only") }}
 
-            {{ wtf.form_field(form.item_name) }}
-            {{ wtf.form_field(form.item_category) }}
-            {{ wtf.form_field(form.item_details) }}
+            {{ wtf.form_field(form.item_name, value=item.name) }}
+            {{ wtf.form_field(form.item_category, value=items_category) }}
+            {{ wtf.form_field(form.item_details, value=item.description) }}
             {{ wtf.form_field(form.submit, class="btn btn-primary") }}
-            <a href="{{ url_for('catalog') }}">
-                <button class="btn btn-danger">Cancel</button>
-            </a>
-        </div>
+            </div>
     </form>
+    <a href="{{ url_for('show_item_details', selected_item_id=item.id) }}">
+        <button class="btn btn-danger">Cancel</button>
+    </a>
+
 {% endblock app_content %}

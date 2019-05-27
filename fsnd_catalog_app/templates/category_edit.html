@@ -11,11 +11,11 @@
             {{ form.hidden_tag() }}
             {{ wtf.form_errors(form, hiddens="only") }}
 
-            {{ wtf.form_field(form.category_name) }}
+            {{ wtf.form_field(form.category_name, value=category.name) }}
             {{ wtf.form_field(form.submit, class="btn btn-primary") }}
-            <a href="{{ url_for('catalog') }}">
-                <button class="btn btn-danger">Cancel</button>
-            </a>
         </div>
     </form>
+    <a href="{{ url_for('catalog_category', selected_category_id=category.id) }}">
+        <button class="btn btn-danger">Cancel</button>
+    </a>
 {% endblock app_content %}

@@ -3,13 +3,7 @@
 
 {% block app_content %}
     <div>
-        <h2>Category - Confirm Delete</h2>
-    </div>
-
-    <div>
-        <h3>Are you sure you want to delete this category?</h3>
-        Category: {{category.name}}
-
+        <h4>Are you sure you want to delete the category "{{category.name}}"?</h4>
         <br><br>
     </div>
 
@@ -20,9 +14,6 @@
             {{ wtf.form_errors(form, hiddens="only") }}
 
             {{ wtf.form_field(form.submit, class="btn btn-primary") }}
-            <a href="{{ url_for('catalog') }}">
-                <button class="btn btn-danger ">Cancel</button>
-            </a>
         </div>
     </form>
 
