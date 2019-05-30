@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Required, ValidationError
 
 from fsnd_catalog_app.models import Category, User
@@ -45,21 +45,21 @@ class DeleteCategoryForm(FlaskForm):
     submit = SubmitField('Delete')
 
 
-class AddItemForm(FlaskForm):
-    categories = Category.query.all()
-    STATE_CHOICES = [(category.name, category.name) for category in categories]
+class AddEditItemForm(FlaskForm):
     item_name = StringField('Item Name', validators=[DataRequired()])
-    item_category = SelectField(label='Category', choices=STATE_CHOICES, validators=[Required()])
-    item_details = StringField('Item Details', validators=[DataRequired()])
+    item_category = SelectField('Category', validators=[DataRequired()])
+    item_details = TextAreaField('Item Details', validators=[DataRequired()])
+
+    def __init__(self):
+        super(AddEditItemForm, self).__init__()
+        self.item_category.choices = [(c.name, c.name) for c in Category.query.all()]
+
+
+class AddItemForm(AddEditItemForm):
     submit = SubmitField('Add Item')
 
 
-class EditItemForm(FlaskForm):
-    categories = Category.query.all()
-    STATE_CHOICES = [(category.name, category.name) for category in categories]
-    item_name = StringField('Item Name', validators=[DataRequired()])
-    item_category = SelectField(label='Category', choices=STATE_CHOICES, validators=[Required()])
-    item_details = StringField('Item Details', validators=[DataRequired()])
+class EditItemForm(AddEditItemForm):
     submit = SubmitField('Save Changes')
 
 

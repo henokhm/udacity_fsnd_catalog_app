@@ -1,6 +1,21 @@
 {% extends "layout.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
+{% block styles %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start"></script>
+    <script>
+      function start() {
+        gapi.load('auth2', function() {
+          auth2 = gapi.auth2.init({
+            client_id: '373654354086-3dolh02f0ta1nsiqdp2saagfrfl1q3lq.apps.googleusercontent.com'
+          });
+        });
+      }
+    </script>
+    {{ super() }}
+{% endblock styles %}
+
 {% block app_content %}
     <div>
         <h2>Please sign in</h2>
@@ -11,13 +26,28 @@
         {{ wtf.form_errors(form, hiddens="only") }}
 
         {{ wtf.form_field(form.email, placeholder="Email address") }}
-        {{ wtf.form_field(form.password, class="form-control", placeholder="Password") }}
-        {{ wtf.form_field(form.submit, class="btn btn-lg btn-primary") }}
+        {{ wtf.form_field(form.password, placeholder="Password") }}
+        {{ wtf.form_field(form.submit, class="btn btn-primary") }}
     </form>
 
-    <div>
-        <small >
-            Don't Have An Account Yet? <a  href="{{ url_for('signup') }}">Sign Up</a>
-        </small>
-    </div>
+    <button id="signinButton" class="btn-danger btn-lg">Signin with Google</button>
+
+    <script>
+        $('#signinButton').click(function () {
+            function signInCallback(authResult) {
+                if (authResult['code']) {
+                    // Send the one-time-use code to the server, if the server responds,
+                    //write a 'login successful' message to the web page and then redirect back to the main restaurants page
+                    $.ajax({
+                        type: 'POST',
+                        url: '/gconnect?state={{STATE}}',
+                        processData: false,
+                        data: authResult['code'],
+                        contentType: 'application/octet-stream; charset=utf-8',
+                    });
+                }
+            }
+            auth2.grantOfflineAccess().then(signInCallback);
+        })
+    </script>
 {% endblock app_content %}

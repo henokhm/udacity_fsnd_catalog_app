@@ -6,7 +6,7 @@
         <h2>Edit Category</h2>
     </div>
 
-    <form class="form-group" method="POST" action="">
+    <form class="form-group" method="PUT" action="">
         {{ form.hidden_tag() }}
         {{ wtf.form_errors(form, hiddens="only") }}
 

@@ -38,16 +38,16 @@
             <div class="col-sm-6 items-list">
                 <div class="card items-list">
                     <h3>Latest Items </h3>
-                    <h6>{% if not selected_category.id  %} [All]{% endif %}
-                    {% if items.count() == 0 %} [No items yet]
-                    {% else %} [{{items.count()}} items]</h6>
-                    {% endif %}
                     {% if current_user.is_authenticated %}
                             <a href="{{ url_for('add_item') }}">
                                 <button class="btn btn-primary">Add Item</button>
                             </a>
                     {% endif %}
-                    <div class="card-body items-list ">
+                    <div class="card-body items-list">
+                        <h6>{% if not selected_category.id  %} [All]{% endif %}
+                        {% if number_of_items == 0 %} [No items yet]
+                        {% else %} [{{ number_of_items }} items]
+                        {% endif %}</h6>
                         <ul class="list-group list-group-flush">
                             {% for item in items %}
                             <a href="{{ url_for('show_item_details', selected_item_id=item.id) }}">

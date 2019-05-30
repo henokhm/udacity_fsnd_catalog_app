@@ -4,7 +4,9 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter_by(id=user_id).first()
+    print(type(user_id))
+    print(user_id)
+    return User.query.get(int(user_id))
 
 
 class Category(db.Model):
@@ -19,8 +21,8 @@ class Category(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     @staticmethod
-    def add_category(name, creator):
-        c = Category(name=name, creator=creator)
+    def add_category(name, user_id):
+        c = Category(name=name, user_id=user_id)
         db.session.add(c)
         db.session.commit()
 
@@ -57,17 +59,16 @@ class Item(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     @staticmethod
-    def add_item(name, description, category, creator):   # potential bug: creator vs creator.id
-        i = Item(name=name, description=description, cat_id=category.id, user_id=creator.id)
+    def add_item(name, description, category, user_id):
+        i = Item(name=name, description=description, cat_id=category.id, user_id=user_id)
         db.session.add(i)
         db.session.commit()
 
     @staticmethod
-    def edit_item(item_to_edit, name, description, cat_id, user_id):
+    def edit_item(item_to_edit, name, description, cat_id):
         item_to_edit.name = name
         item_to_edit.description = description
         item_to_edit.cat_id = cat_id
-        item_to_edit.user_id = user_id
         db.session.commit()
 
     @staticmethod
@@ -89,9 +90,10 @@ class Item(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
+    google_auth = db.Column(db.Boolean, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    hashed_password = db.Column(db.String(60), nullable=False)
+    hashed_password = db.Column(db.String(60))
 
     # categories created by user:
     categories = db.relationship('Category', backref='creator', lazy=True)
@@ -99,16 +101,9 @@ class User(db.Model, UserMixin):
     items = db.relationship('Item', backref='creator', lazy=True)
 
     @staticmethod
-    def add_user(username, email, hashed_password):
-        u = User(username=username, email=email, hashed_password=hashed_password)
+    def add_user(google_auth, username, email, hashed_password):
+        u = User(google_auth=google_auth, username=username, email=email, hashed_password=hashed_password)
         db.session.add(u)
-        db.session.commit()
-
-    @staticmethod
-    def edit_user(user_to_edit, username, email, hashed_password):
-        user_to_edit.username = username
-        user_to_edit.email = email
-        user_to_edit.hashed_password = hashed_password
         db.session.commit()
 
     @staticmethod
