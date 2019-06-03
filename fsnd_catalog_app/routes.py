@@ -254,10 +254,11 @@ def edit_item(selected_item_id):
     selected_item = Item.query.filter_by(id=selected_item_id).first()
     if form.validate_on_submit():
         if selected_item.user_id == current_user.id:
+            category = Category.query.filter_by(name=form.item_category.data).first()
             Item.edit_item(item_to_edit=selected_item,
                            name=form.item_name.data,
                            description=form.item_details.data,
-                           cat_id=form.item_category.data)
+                           category=category)
             flash('You have successfully edited {} item'.format(form.item_name.data))
         else:
             flash('You cannot edit item "{}" because you didn\'t create it'.format(selected_item.name))

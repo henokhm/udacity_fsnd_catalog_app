@@ -63,10 +63,10 @@ class Item(db.Model):
         db.session.commit()
 
     @staticmethod
-    def edit_item(item_to_edit, name, description, cat_id):
+    def edit_item(item_to_edit, name, description, category):
         item_to_edit.name = name
         item_to_edit.description = description
-        item_to_edit.cat_id = cat_id
+        item_to_edit.cat_id = category.id
         db.session.commit()
 
     @staticmethod
