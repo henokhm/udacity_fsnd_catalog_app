@@ -6,9 +6,8 @@
         <h2>Edit Category</h2>
     </div>
 
-    <form class="form-group" method="PUT" action="">
+    <form class="form-group" method="POST" action="">
         {{ form.hidden_tag() }}
-        {{ wtf.form_errors(form, hiddens="only") }}
 
         {{ wtf.form_field(form.category_name, value=category.name) }}
         {{ wtf.form_field(form.submit, class="btn btn-primary") }}

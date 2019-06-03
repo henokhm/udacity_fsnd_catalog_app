@@ -159,9 +159,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             if bcrypt.check_password_hash(user.hashed_password, form.password.data): # correct password provided
-                print(session)
                 login_user(user)
-                print(session)
                 flash('You have successfully logged in!')
                 return redirect(url_for("catalog"))
             else: #wrong password
@@ -195,7 +193,7 @@ def add_category():
     return render_template("add_category.html", form=form)
 
 
-@app.route("/catalog_categories/<int:category_id>/edit", methods=['GET', 'PUT'])
+@app.route("/catalog_categories/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_category(category_id):
     form = EditCategoryForm()
@@ -210,13 +208,14 @@ def edit_category(category_id):
     return render_template("category_edit.html", form=form, category=category)
 
 
-@app.route("/catalog_categories/<int:category_id>/delete", methods=['GET', 'DELETE'])
+@app.route("/catalog_categories/<int:category_id>/delete", methods=['GET', 'POST'])
 @login_required
 def delete_category(category_id):
     form = DeleteCategoryForm()
     category = Category.query.filter_by(id=category_id).first()
-    if request.method == 'DELETE':
-        if category.creator == current_user:  # make sure category belongs to current user
+    if form.validate_on_submit():
+        print('form validated')
+        if category.creator == current_user:
             Category.delete_category(category)
             flash('You have successfully deleted the "{}" category!'.format(category.name))
         else:
@@ -248,14 +247,13 @@ def show_item_details(selected_item_id):
     return render_template("item_details.html", item=selected_item)
 
 
-@app.route("/catalog_items/<int:selected_item_id>/edit", methods=['GET', 'PUT'])
+@app.route("/catalog_items/<int:selected_item_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_item(selected_item_id):
     form = EditItemForm()
     selected_item = Item.query.filter_by(id=selected_item_id).first()
     if form.validate_on_submit():
         if selected_item.user_id == current_user.id:
-            # save changes to db
             Item.edit_item(item_to_edit=selected_item,
                            name=form.item_name.data,
                            description=form.item_details.data,
@@ -267,7 +265,7 @@ def edit_item(selected_item_id):
     return render_template("item_edit.html", form=form, item=selected_item)
 
 
-@app.route("/catalog_items/<int:selected_item_id>/delete", methods=['GET', 'DELETE'])
+@app.route("/catalog_items/<int:selected_item_id>/delete", methods=['GET', 'POST'])
 @login_required
 def delete_item(selected_item_id):
     form = DeleteItemForm()
