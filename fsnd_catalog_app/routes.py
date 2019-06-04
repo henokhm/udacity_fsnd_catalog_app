@@ -141,7 +141,7 @@ def signup():
         login_user(user)
         flash('Welcome! Your account has been created.')
         return redirect(url_for("catalog"))
-    return render_template("signup.html", form=form)
+    return render_template("signup.html", form=form, STATE=session['state'])
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -168,7 +168,7 @@ def login():
         else:
             flash("That username doesn't exist. Please sign up.")
             return redirect(url_for("signup"))
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, STATE=session['state'])
 
 
 @app.route("/logout")
@@ -241,7 +241,6 @@ def add_item():
 
 
 @app.route("/catalog_items/<string:selected_item_id>")
-@login_required
 def show_item_details(selected_item_id):
     selected_item = Item.query.filter_by(id=selected_item_id).first()
     return render_template("item_details.html", item=selected_item)
