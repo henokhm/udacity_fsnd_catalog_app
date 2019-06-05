@@ -94,7 +94,6 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-    print(1)
     # Verify that the access token is valid for this app.
     if result['issued_to'] != CLIENT_ID:
         response = make_response(
@@ -103,34 +102,28 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-    print(3)
     # Store the access token in the session for later use.
     session['access_token'] = credentials.access_token
-    print("access token: ", credentials.access_token)
     session['gplus_id'] = gplus_id
 
-    print(4)
     # Get user info
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
 
-    print(5)
     data = answer.json()
     if not User.query.filter_by(username=data['name']).first():
         # user is not in our database
         User.add_user(google_auth=True, username=data['name'], email=data['email'])
         flash('Your account has been created!')
 
-    print(6)
     # login the user"
     user = User.query.filter_by(username=data['name']).first()
-    print(7)
     login_user(user)
     print(8)
     flash('You have successfully logged in!')
     print(9)
-    return redirect(url_for("catalog"))
+    return redirect(url_for('catalog'))
 
 
 @app.route("/signup", methods=['GET', 'POST'])
@@ -204,7 +197,6 @@ def login():
 @login_required
 def logout():
     # if user was authenticated using Google, first revoke token
-    print(session)
     if current_user.google_auth:
         access_token = session.get('access_token')
         if access_token is None:
@@ -217,12 +209,9 @@ def logout():
         if result['status'] == '200':
             del session['access_token']
             del session['gplus_id']
-            return redirect(url_for('logout'))
         else:
-            response = make_response(json.dumps('Failed to revoke token for given user.', 400))
-            response.headers['Content-Type'] = 'application/json'
-            return response
-
+            session.clear()
+            redirect(url_for("catalog"))
     logout_user()
     flash("You have successfully logged out!")
     return redirect(url_for("catalog"))
