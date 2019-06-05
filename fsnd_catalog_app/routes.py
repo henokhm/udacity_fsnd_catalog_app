@@ -120,9 +120,7 @@ def gconnect():
     # login the user"
     user = User.query.filter_by(username=data['name']).first()
     login_user(user)
-    print(8)
     flash('You have successfully logged in!')
-    print(9)
     return redirect(url_for('catalog'))
 
 
