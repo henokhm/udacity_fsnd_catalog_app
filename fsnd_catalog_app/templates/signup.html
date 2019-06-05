@@ -7,11 +7,13 @@
     <script>
         function start() {
             gapi.load('auth2', function() {
-                auth2 = gapi.auth2.init();
+                auth2 = gapi.auth2.init({
+                    client_id: '373654354086-3dolh02f0ta1nsiqdp2saagfrfl1q3lq.apps.googleusercontent.com'
+                    });
             });
         }
+        start();
     </script>
-    <meta name="google-signin-client_id" content="373654354086-3dolh02f0ta1nsiqdp2saagfrfl1q3lq.apps.googleusercontent.com">
 
     {{ super() }}
 {% endblock styles %}
@@ -32,10 +34,10 @@
         {{ wtf.form_field(form.submit, class="btn btn-primary") }}
     </form>
 
-    <button id="signinButton" class="btn-danger btn-lg">Signin with Google</button>
+    <button id="gSignIn" class="btn-danger btn-lg">Signin with Google</button>
 
     <script>
-        $('#signinButton').click(function () {
+        $('#gSignIn').click(function () {
             function signInCallback(authResult) {
                 if (authResult['code']) {
                     // Send the one-time-use code to the server
@@ -48,7 +50,7 @@
                     });
                 }
             }
-            auth2.grantOfflineAccess().then(signInCallback);
+            auth2.grantOfflineAccess({scope: 'profile email'}).then(signInCallback);
         })
     </script>
 {% endblock app_content %}

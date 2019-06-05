@@ -5,13 +5,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start"></script>
     <script>
-      function start() {
-        gapi.load('auth2', function() {
-          auth2 = gapi.auth2.init({
-            client_id: '373654354086-3dolh02f0ta1nsiqdp2saagfrfl1q3lq.apps.googleusercontent.com'
-          });
-        });
-      }
+        function start() {
+            gapi.load('auth2', function() {
+                auth2 = gapi.auth2.init({
+                    client_id: '373654354086-3dolh02f0ta1nsiqdp2saagfrfl1q3lq.apps.googleusercontent.com'
+                    });
+            });
+        }
+        start();
     </script>
     {{ super() }}
 {% endblock styles %}
@@ -30,14 +31,13 @@
         {{ wtf.form_field(form.submit, class="btn btn-primary") }}
     </form>
 
-    <button id="signinButton" class="btn-danger btn-lg">Signin with Google</button>
+    <button id="gSignIn" class="btn-danger btn-lg">Signin with Google</button>
 
     <script>
-        $('#signinButton').click(function () {
+        $('#gSignIn').click(function () {
             function signInCallback(authResult) {
                 if (authResult['code']) {
-                    // Send the one-time-use code to the server, if the server responds,
-                    //write a 'login successful' message to the web page and then redirect back to the main restaurants page
+                    // Send the one-time-use code to the server
                     $.ajax({
                         type: 'POST',
                         url: '/gconnect?state={{STATE}}',
@@ -47,7 +47,7 @@
                     });
                 }
             }
-            auth2.grantOfflineAccess().then(signInCallback);
+            auth2.grantOfflineAccess({scope: 'profile email'}).then(signInCallback);
         })
     </script>
 {% endblock app_content %}

@@ -15,6 +15,7 @@ def length(min=-1, max=-1):
 
     return _length
 
+
 class SignupForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), length(min=2, max=20)])

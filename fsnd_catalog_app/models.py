@@ -4,6 +4,11 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    Function to load user. Used by Flask-login extension.
+    :param user_id: Integer identifying the user in the database.
+    :return: The user object with the given id.
+    """
     return User.query.get(int(user_id))
 
 
@@ -99,7 +104,7 @@ class User(db.Model, UserMixin):
     items = db.relationship('Item', backref='creator', lazy=True)
 
     @staticmethod
-    def add_user(google_auth, username, email, hashed_password):
+    def add_user(google_auth, username, email, hashed_password=None):
         u = User(google_auth=google_auth, username=username, email=email, hashed_password=hashed_password)
         db.session.add(u)
         db.session.commit()
