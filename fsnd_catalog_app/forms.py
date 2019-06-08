@@ -1,16 +1,18 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField
+from wtforms import (StringField, PasswordField,
+                     SubmitField, TextAreaField, SelectField)
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from fsnd_catalog_app.models import Category, User
 
 
 def length(min=-1, max=-1):
-    message = 'length of input must be between %d and %d characters long.' % (min, max)
+    message = 'length of input must be between %d ' \
+              'and %d characters long.' % (min, max)
 
     def _length(form, field):
-        l = len(field.data)
-        if l < min or max != -1 and l > max:
+        length = len(field.data)
+        if length < min or max != -1 and length > max:
             raise ValidationError(message)
 
     return _length
@@ -21,18 +23,20 @@ class SignupForm(FlaskForm):
                            validators=[DataRequired(), length(min=2, max=20)])
     email = StringField('Email',
                         validators=[DataRequired(), Email(), length(max=120)])
-    password = PasswordField('Password', validators=[DataRequired(), length(min=6, max=60)])
+    password = PasswordField('Password', validators=[DataRequired(),
+                                                     length(min=6, max=60)])
     confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+                                     validators=[DataRequired(),
+                                                 EqualTo('password')])
     submit = SubmitField('Sign Up')
 
-    # Custom validation to prevent users from trying to user the same email or username
-    # to sign up for two accounts
+    # Custom validation to prevent users from trying to user
+    # the same email or username to sign up for two accounts
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError("An account with that username already exists. Please choose"
-                                  "a different username.")
+            raise ValidationError("An account with that username already "
+                                  "exists. Please choose another username.")
 
 
 class LoginForm(FlaskForm):
@@ -43,12 +47,15 @@ class LoginForm(FlaskForm):
 
 
 class AddCategoryForm(FlaskForm):
-    category_name = StringField('Category Name', validators=[DataRequired(), length(max=80)])
+    category_name = StringField('Category Name',
+                                validators=[DataRequired(), length(max=80)])
     submit = SubmitField('Add Category')
 
 
 class EditCategoryForm(FlaskForm):
-    category_name = StringField('Category Name', validators=[DataRequired(), length(min=2, max=80)])
+    category_name = StringField('Category Name',
+                                validators=[DataRequired(),
+                                            length(min=2, max=80)])
     submit = SubmitField('Save Changes')
 
 
@@ -57,13 +64,17 @@ class DeleteCategoryForm(FlaskForm):
 
 
 class AddEditItemForm(FlaskForm):
-    item_name = StringField('Item Name', validators=[DataRequired(), length(max=80)])
+    item_name = StringField('Item Name',
+                            validators=[DataRequired(), length(max=80)])
     item_category = SelectField('Category', validators=[DataRequired()])
-    item_details = TextAreaField('Item Details', validators=[DataRequired(), length(max=250)])
+    item_details = TextAreaField('Item Details',
+                                 validators=[DataRequired(),
+                                             length(max=250)])
 
     def __init__(self):
         super(AddEditItemForm, self).__init__()
-        self.item_category.choices = [(c.name, c.name) for c in Category.query.all()]
+        self.item_category.choices = [(c.name, c.name)
+                                      for c in Category.query.all()]
 
 
 class AddItemForm(AddEditItemForm):

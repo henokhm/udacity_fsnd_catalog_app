@@ -56,14 +56,16 @@ class Item(db.Model):
     description = db.Column(db.String(350))
 
     # category of item
-    cat_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    cat_id = db.Column(db.Integer,
+                       db.ForeignKey('category.id'), nullable=False)
 
     # creator of item
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     @staticmethod
     def add_item(name, description, category, user_id):
-        i = Item(name=name, description=description, cat_id=category.id, user_id=user_id)
+        i = Item(name=name, description=description,
+                 cat_id=category.id, user_id=user_id)
         db.session.add(i)
         db.session.commit()
 
@@ -105,7 +107,8 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def add_user(google_auth, username, email, hashed_password=None):
-        u = User(google_auth=google_auth, username=username, email=email, hashed_password=hashed_password)
+        u = User(google_auth=google_auth, username=username,
+                 email=email, hashed_password=hashed_password)
         db.session.add(u)
         db.session.commit()
 
@@ -113,4 +116,3 @@ class User(db.Model, UserMixin):
     def delete_user(user_to_delete):
         db.session.delete(user_to_delete)
         db.session.commit()
-

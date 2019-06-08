@@ -26,4 +26,3 @@ if not exists:
 
 # PEP8 violation to avoid circular imports
 from fsnd_catalog_app import routes
-
